@@ -2,7 +2,7 @@
   "apps": [{
     "name": "panda_shop_server",
     "script": "development.js",
-    "cwd": "/data/node/zhouwei_address/panda_shop_server",
+    "cwd": "/data/node/zhouwei_address",
     "exec_mode": "fork",
     "max_memory_restart": "1G",
     "autorestart": true,
