@@ -1,6 +1,6 @@
 {
   "apps": [{
-    "name": "panda_shop_server",
+    "name": "zhouwei_address",
     "script": "development.js",
     "cwd": "/data/node/zhouwei_address",
     "exec_mode": "fork",
