@@ -36,13 +36,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'panda',
+    database: 'address',
     prefix: 'p_',
     encoding: 'utf8',
-    host: '47.75.78.93',
+    host: '121.36.47.82',
     port: '3306',
-    user: 'qipiaoyang',
-    password: 'qi956634645',
+    user: 'root',
+    password: '7637f7e8a493d428',
     dateStrings: true
   }
 };
