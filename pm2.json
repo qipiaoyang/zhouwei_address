@@ -1,0 +1,16 @@
+{
+  "apps": [{
+    "name": "panda_shop_server",
+    "script": "development.js",
+    "cwd": "/data/node/panda_shop_server",
+    "exec_mode": "fork",
+    "max_memory_restart": "1G",
+    "autorestart": true,
+    "node_args": [],
+    "args": [],
+    "env": {
+      "DE_LOG_DIR": "/tmp",
+      "ENABLE_NODE_LOG": "YES"
+    }
+  }]
+}
