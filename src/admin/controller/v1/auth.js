@@ -13,8 +13,9 @@ module.exports = class extends Base {
   * @apiSuccess {String} firstname Firstname of the User.
   * @apiSuccess {String} lastname  Lastname of the User.
   */
-  async userAction() {
-
+  async userInfoAction() {
+    let data = this.ctx.state.userInfo;
+    delete data.password;
     return this.success(data)
   }
 
@@ -52,7 +53,6 @@ module.exports = class extends Base {
     delete data.password;
     const result = Object.assign({},{
       token: token,
-      id: data.id
     });
 
     return this.success(result);
