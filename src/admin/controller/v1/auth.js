@@ -13,7 +13,7 @@ module.exports = class extends Base {
   * @apiSuccess {String} firstname Firstname of the User.
   * @apiSuccess {String} lastname  Lastname of the User.
   */
-  async indexAction() {
+  async userAction() {
 
     return this.success(data)
   }
@@ -52,6 +52,7 @@ module.exports = class extends Base {
     delete data.password;
     const result = Object.assign({},{
       token: token,
+      id: data.id
     });
 
     return this.success(result);
