@@ -11,5 +11,6 @@ module.exports = {
     // 格式为： controller+action
     '/admin/v1/auth/login',
     '/admin/v1/auth/logout',
+    '/admin/v1/area/tree',
   ]
 };
