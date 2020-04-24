@@ -80,12 +80,12 @@ module.exports = class extends BaseRest {
                 province: data.address[0],
                 city: data.address[1],
                 county: data.address[2],
-                addr: data.address_desc
+                addr: data.address_desc,
+                create_time: getTime(),
+                update_time: getTime()
             });
 
-            data.create_time = getTime();
-            data.update_time = getTime();
-            const insertId = await this.modelInstance.add(data);
+            const insertId = await this.modelInstance.add(result);
             return this.success({id: insertId});
         } catch (e) {
             think.logger.error(new Error(e));
