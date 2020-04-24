@@ -24,7 +24,6 @@ module.exports = class extends BaseRest {
                         username: ['like', `%${name}%`]
                     }).order(order).select();
                 }
-                console.log(data,"1111")
                 return this.success(data);
             } else {
                 // 传了分页返回分页数据
@@ -67,6 +66,7 @@ module.exports = class extends BaseRest {
             }
             data.create_time = getTime();
             data.update_time = getTime();
+            data.dept_id = 0;
             const insertId = await this.modelInstance.add(data);
             return this.success({id: insertId});
         } catch (e) {
