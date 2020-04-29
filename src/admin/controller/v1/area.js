@@ -4,16 +4,6 @@ const Base = require('./base.js');
 module.exports = class extends Base {
 
 
-  /**
-   * @api {post} /admin/auth/login 管理后台登陆接口
-   * @apiName 用户登陆
-   * @apiGroup 用户模块
-   *
-   * @apiParam {String} mobile 用户手机号
-   * @apiParam {String} password 用户密码
-   *
-   * @apiSuccess {String} token 用户token
-   */
   async treeAction() {
     const type = this.post("type");
     const pid = this.post("pid");
