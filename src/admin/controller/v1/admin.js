@@ -7,7 +7,7 @@ module.exports = class extends BaseRest {
             let data;
             if (this.id) {
                 const pk = this.modelInstance.pk;
-                data = await this.modelInstance.where({[pk]: this.id}).find();
+                data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({[pk]: this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
                 delete data.password;
                 return this.success(data);
             }
@@ -18,7 +18,7 @@ module.exports = class extends BaseRest {
             if (!page) {
                 // 不传分页默认返回所有
                 if(think.isEmpty(name)) {
-                    data = await this.modelInstance.order(order).select();
+                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
                 } else {
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
                         username: ['like', `%${name}%`]
