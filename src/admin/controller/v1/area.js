@@ -12,6 +12,12 @@ module.exports = class extends Base {
     return this.success(result);
   }
 
+
+  async deptListAction() {
+    const data = await this.model('dept').where({ pid: 1 }).select();
+    return this.success(data);
+  }
+
   async townListAction() {
     const type = this.post("type");
     const pid = this.post("pid");
