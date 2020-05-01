@@ -57,6 +57,9 @@ module.exports = class extends BaseRest {
             if (think.isEmpty(data.password)) {
                 return this.fail("请传入密码");
             }
+            if (think.isEmpty(data.dept_id)) {
+                return this.fail("请传入小组名称");
+            }
             if (data.password) {
                 data.password = encryptPassword(data.password);
                 const hasUser = await this.modelInstance.where({mobile: data.mobile}).find();
@@ -66,7 +69,6 @@ module.exports = class extends BaseRest {
             }
             data.create_time = getTime();
             data.update_time = getTime();
-            data.dept_id = 0;
             const insertId = await this.modelInstance.add(data);
             return this.success({id: insertId});
         } catch (e) {
