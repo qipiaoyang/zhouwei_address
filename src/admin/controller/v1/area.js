@@ -5,20 +5,30 @@ module.exports = class extends Base {
 
 
   async treeAction() {
+    const area_list = await this.model("area").field("id,name as label,pid,sort").where({
+      type: ["in", [1, 2,3]]
+    }).select();
+    const result = arrayToTree(area_list, 0);
+    return this.success(result);
+  }
+
+  async townListAction() {
     const type = this.post("type");
     const pid = this.post("pid");
-    let where = Object.assign({});
-
+    let where = {};
     if(think.isEmpty(type)) {
       return this.fail("请传入有效的type");
     }
     where.type = type;
-    if(!think.isEmpty(pid)) {
-      where.pid = pid;
+    if(think.isEmpty(pid)) {
+      return this.fail("请传入有效的pid");
     }
+    where.pid = pid;
     const area_list = await this.model("area").field("id,name as label,pid,sort").where(where).select();
     return this.success(area_list);
+
   }
+
 
   async provinceAction() {
     const data = province.map((item,index) => {

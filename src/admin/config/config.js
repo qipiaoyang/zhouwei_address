@@ -12,6 +12,7 @@ module.exports = {
     '/admin/v1/auth/login',
     '/admin/v1/auth/logout',
     '/admin/v1/area/tree',
+    '/admin/v1/area/townList',
     '/admin/v1/area/province',
     '/admin/v1/area/city',
     '/admin/v1/area/county',
