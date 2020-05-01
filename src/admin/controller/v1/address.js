@@ -95,6 +95,7 @@ module.exports = class extends BaseRest {
       }
       let result = Object.assign({}, {
         admin_id: data.admin_id,
+        dept_id: data.dept_id,
         name: data.name,
         mobile: data.mobile,
         province: data.address[0],
