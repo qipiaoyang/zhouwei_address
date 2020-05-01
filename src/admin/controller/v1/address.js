@@ -7,8 +7,7 @@ module.exports = class extends BaseRest {
       let data;
       let that = this;
       if (this.id) {
-        const pk = this.modelInstance.pk;
-        data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({[pk]: this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
+        data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({"c.id": this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
         delete data.password;
         return this.success(data);
       }
