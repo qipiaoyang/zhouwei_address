@@ -62,9 +62,11 @@ module.exports = class extends BaseRest {
           val.province_num = val.province;
           val.city_num = val.city;
           val.county_num = val.county;
+          val.town_num = val.town;
           val.province = await this.model('area').where({id: val.province}).getField('name', true);
           val.city = await this.model('area').where({id: val.city}).getField('name', true);
           val.county = await this.model('area').where({id: val.county}).getField('name', true);
+          val.town = await this.model('area').where({id: val.town}).getField('name', true);
         }
 
         return this.success(data);
