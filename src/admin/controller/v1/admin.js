@@ -20,21 +20,21 @@ module.exports = class extends BaseRest {
                 if(think.isEmpty(name)) {
                     data = await this.modelInstance.order(order).select();
                 } else {
-                    data = await this.modelInstance.where({
+                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
                         username: ['like', `%${name}%`]
-                    }).order(order).select();
+                    }).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
                 }
                 return this.success(data);
             } else {
                 // 传了分页返回分页数据
                 let pageSize = this.get('size') || 10;
                 if(think.isEmpty(name)) {
-                    data = await this.modelInstance.page(page, pageSize).order(order).countSelect();
+                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").page(page, pageSize).order(order).join("p_dept ON c.`dept_id`=p_dept.`id`").countSelect();
 
                 } else {
-                    data = await this.modelInstance.where({
+                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
                         username: ['like', `%${name}%`]
-                    }).page(page, pageSize).order(order).countSelect();
+                    }).join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
 
                 }
                 return this.success(data);
