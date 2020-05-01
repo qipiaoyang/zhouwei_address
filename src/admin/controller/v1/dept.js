@@ -51,13 +51,10 @@ module.exports = class extends BaseRest {
             if (think.isEmpty(data)) {
                 return this.fail('data is empty');
             }
-            if (think.isEmpty(data.pid)) {
-                return this.fail("请传入pid");
-            }
             if (think.isEmpty(data.name)) {
                 return this.fail("请传入name");
             }
-
+            data.pid = 1;
             if (data.name) {
                 const hasUser = await this.modelInstance.where({name: data.name}).find();
                 if (!think.isEmpty(hasUser)) {
