@@ -16,17 +16,26 @@ module.exports = class extends BaseRest {
       let page = this.get('page');
       let name = this.get('name') || '';
       let mobile = this.get('mobile') || '';
+      let dept_id = this.get("dept_id");
+      let start_time = this.get("start_time");
+      let end_time = this.get("end_time");
       if (!page) {
         // 不传分页默认返回所有
         let where = {};
-        if (think.isEmpty(name) && think.isEmpty(mobile)) {
+        if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
         } else {
           if (!think.isEmpty(name)) {
-            where.name = ['like', `%${name}%`];
+            where["c.name"] = ['like', `%${name}%`];
           }
           if (!think.isEmpty(mobile)) {
-            where.mobile = ['like', `%${mobile}%`];
+            where["c.mobile"] = ['like', `%${mobile}%`];
+          }
+          if (!think.isEmpty(dept_id)) {
+            where["c.dept_id"] = dept_id;
+          }
+          if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
+            where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
 
@@ -35,9 +44,11 @@ module.exports = class extends BaseRest {
           val.province_num = val.province;
           val.city_num = val.city;
           val.county_num = val.county;
+          val.town_num = val.town;
           val.province = await this.model('area').where({id: val.province}).getField('name', true);
           val.city = await this.model('area').where({id: val.city}).getField('name', true);
           val.county = await this.model('area').where({id: val.county}).getField('name', true);
+          val.town = await this.model('area').where({id: val.town}).getField('name', true);
         }
         return this.success(data);
       } else {
@@ -50,10 +61,16 @@ module.exports = class extends BaseRest {
 
         } else {
           if (!think.isEmpty(name)) {
-            where.name = ['like', `%${name}%`];
+            where["c.name"] = ['like', `%${name}%`];
           }
           if (!think.isEmpty(mobile)) {
-            where.mobile = ['like', `%${mobile}%`];
+            where["c.mobile"] = ['like', `%${mobile}%`];
+          }
+          if (!think.isEmpty(dept_id)) {
+            where["c.dept_id"] = dept_id;
+          }
+          if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
+            where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
 
@@ -106,7 +123,8 @@ module.exports = class extends BaseRest {
         county: data.address[2],
         addr: data.address_desc,
         create_time: getTime(),
-        update_time: getTime()
+        update_time: getTime(),
+        status: 1
       });
 
       const insertId = await this.modelInstance.add(result);
