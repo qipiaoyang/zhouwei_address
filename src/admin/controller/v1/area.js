@@ -14,7 +14,7 @@ module.exports = class extends Base {
 
 
   async deptListAction() {
-    const data = await this.model('dept').where({ pid: 1 }).select();
+    const data = await this.model('dept').select();
     return this.success(data);
   }
 

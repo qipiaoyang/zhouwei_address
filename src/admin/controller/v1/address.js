@@ -55,7 +55,7 @@ module.exports = class extends BaseRest {
         // 传了分页返回分页数据
         let pageSize = this.get('size') || 10;
         let where = {};
-        if (think.isEmpty(name) && think.isEmpty(mobile)) {
+        if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
 
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
 
@@ -72,7 +72,8 @@ module.exports = class extends BaseRest {
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
             where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
-          data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
+          console.log(where,"123123")
+          data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").where(where).page(page, pageSize).order(order).countSelect();
 
         }
         for (const val of data.data) {
