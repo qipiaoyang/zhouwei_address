@@ -53,6 +53,7 @@ module.exports = class extends Base {
     delete data.password;
     const result = Object.assign({},{
       token: token,
+      data: data
     });
 
     return this.success(result);
