@@ -92,6 +92,12 @@ module.exports = class extends BaseRest {
       })
 
       insertId = await this.modelInstance.addMany(result);
+      // 更新order表
+      const addressModel = this.model("address");
+      const address_result = await addressModel.where({ id: ['IN', data.order_ids] }).update({
+        status: 1
+      });
+      await addressModel.commit();
       await this.modelInstance.commit();
 
     } catch (e) {
@@ -100,18 +106,6 @@ module.exports = class extends BaseRest {
       return this.fail(500, '接口异常！');
     }
 
-    const addressModel = this.model("address");
-    try {
-      await addressModel.startTrans();
-      const address_result = await addressModel.where({ id: data.order_id }).update({
-        status: 1
-      });
-      await addressModel.commit();
-    } catch (e) {
-      await addressModel.rollback();
-      think.logger.error(new Error(e));
-      return this.fail(500, '接口异常！');
-    }
 
     return this.success({id: insertId});
 
