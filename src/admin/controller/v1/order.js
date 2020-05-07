@@ -77,42 +77,41 @@ module.exports = class extends BaseRest {
       return this.fail('请传入订单');
     }
 
-    think.logger.debugger(typeof data.order_ids)
-    try {
-      await this.modelInstance.startTrans();
-      let result = [],
-          ids = [];
-      data.order_ids.map((item) => {
-        let obj = Object.assign({}, {
-          admin_id: data.admin_id,
-          order_id: item.id,
-          mobile: item.mobile,
-          create_time: getTime(),
-          update_time: getTime(),
-          status: 1,
-        });
-        result.push(obj);
-        ids.push(item.id);
-      })
+    think.logger.debug(typeof data.order_ids)
+    // try {
+    //   await this.modelInstance.startTrans();
+    //   let result = [],
+    //       ids = [];
+    //   data.order_ids.map((item) => {
+    //     let obj = Object.assign({}, {
+    //       admin_id: data.admin_id,
+    //       order_id: item.id,
+    //       mobile: item.mobile,
+    //       create_time: getTime(),
+    //       update_time: getTime(),
+    //       status: 1,
+    //     });
+    //     result.push(obj);
+    //     ids.push(item.id);
+    //   })
+    //
+    //   insertId = await this.modelInstance.addMany(result);
+    //   // 更新order表
+    //   const addressModel = this.model("address");
+    //   const address_result = await addressModel.where({ id: ['IN', ids] }).update({
+    //     status: 1
+    //   });
+    //   await addressModel.commit();
+    //   await this.modelInstance.commit();
+    //
+    // } catch (e) {
+    //   await this.modelInstance.rollback();
+    //   think.logger.error(new Error(e));
+    //   return this.fail(500, '接口异常！');
+    // }
 
-      insertId = await this.modelInstance.addMany(result);
-      // 更新order表
-      const addressModel = this.model("address");
-      console.log()
-      const address_result = await addressModel.where({ id: ['IN', ids] }).update({
-        status: 1
-      });
-      await addressModel.commit();
-      await this.modelInstance.commit();
 
-    } catch (e) {
-      await this.modelInstance.rollback();
-      think.logger.error(new Error(e));
-      return this.fail(500, '接口异常！');
-    }
-
-
-    return this.success({id: insertId});
+    return this.success({id: 123});
 
   }
 
