@@ -72,7 +72,6 @@ module.exports = class extends BaseRest {
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
             where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
-          console.log(where,"123123")
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").where(where).page(page, pageSize).order(order).countSelect();
 
         }
