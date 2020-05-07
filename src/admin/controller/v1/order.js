@@ -73,19 +73,24 @@ module.exports = class extends BaseRest {
     if (think.isEmpty(data.admin_id)) {
       return this.fail('请传入员工id');
     }
-    if (think.isEmpty(data.order_id)) {
+    if (think.isEmpty(data.order_ids)) {
       return this.fail('请传入订单');
     }
     try {
       await this.modelInstance.startTrans();
-      let result = Object.assign({}, {
-        admin_id: data.admin_id,
-        order_id: data.order_id,
-        create_time: getTime(),
-        update_time: getTime(),
-        status: 1,
-      });
-      insertId = await this.modelInstance.add(result);
+      let result = [];
+      data.order_ids.map((item) => {
+        let obj = Object.assign({}, {
+          admin_id: data.admin_id,
+          order_id: item,
+          create_time: getTime(),
+          update_time: getTime(),
+          status: 1,
+        });
+        result.push(obj);
+      })
+
+      insertId = await this.modelInstance.addMany(result);
       await this.modelInstance.commit();
 
     } catch (e) {
