@@ -76,6 +76,8 @@ module.exports = class extends BaseRest {
     if (think.isEmpty(data.order_ids)) {
       return this.fail('请传入订单');
     }
+
+    console.log(typeof data.order_ids)
     try {
       await this.modelInstance.startTrans();
       let result = [],
