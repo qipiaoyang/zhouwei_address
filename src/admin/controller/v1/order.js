@@ -97,10 +97,10 @@ module.exports = class extends BaseRest {
 
       insertId = await this.modelInstance.addMany(result);
       // 更新order表
-      // const addressModel = this.model("address");
-      // const address_result = await addressModel.where({ id: ['IN', ids] }).update({
-      //   status: 1
-      // });
+      const addressModel = this.model("address").db(this.modelInstance.db());
+      const address_result = await addressModel.where({ id: ['IN', ids] }).update({
+        status: 1
+      });
       // await addressModel.commit();
       await this.modelInstance.commit();
 
