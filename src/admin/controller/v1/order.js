@@ -82,7 +82,8 @@ module.exports = class extends BaseRest {
       data.order_ids.map((item) => {
         let obj = Object.assign({}, {
           admin_id: data.admin_id,
-          order_id: item,
+          order_id: item.id,
+          mobile: item.mobile,
           create_time: getTime(),
           update_time: getTime(),
           status: 1,
