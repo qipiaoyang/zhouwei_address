@@ -7,22 +7,28 @@ module.exports = class extends BaseRest {
             let data;
             if (this.id) {
                 const pk = this.modelInstance.pk;
-                data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({[pk]: this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
+                data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({[`c.${pk}`]: this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
                 delete data.password;
                 return this.success(data);
             }
             // 所有对象
             let order = this.get('order') || 'update_time ASC';
             let page = this.get('page');
+            let dept_id = this.get('dept_id');
             let name = this.get('name') || "";
             if (!page) {
                 // 不传分页默认返回所有
-                if(think.isEmpty(name)) {
+                if(think.isEmpty(name) && think.isEmpty(dept_id)) {
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
                 } else {
-                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
-                        username: ['like', `%${name}%`]
-                    }).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
+                    let where = {};
+                    if(!think.isEmpty(name)) {
+                        where['c.username'] = ['like', `%${name}%`];
+                    }
+                    if(!think.isEmpty(dept_id)) {
+                        where['c.dept_id'] = dept_id;
+                    }
+                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
                 }
                 return this.success(data);
             } else {
@@ -33,7 +39,7 @@ module.exports = class extends BaseRest {
 
                 } else {
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
-                        username: ['like', `%${name}%`]
+                        'c.username': ['like', `%${name}%`]
                     }).join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
 
                 }
