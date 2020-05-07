@@ -96,7 +96,7 @@ module.exports = class extends BaseRest {
       insertId = await this.modelInstance.addMany(result);
       // 更新order表
       const addressModel = this.model("address");
-
+      console.log()
       const address_result = await addressModel.where({ id: ['IN', ids] }).update({
         status: 1
       });
