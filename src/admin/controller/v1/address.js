@@ -125,7 +125,8 @@ module.exports = class extends BaseRest {
         addr: data.address_desc,
         create_time: getTime(),
         update_time: getTime(),
-        status: 1
+        status: 1,
+        desc: data.desc
       });
 
       const insertId = await this.modelInstance.add(result);
