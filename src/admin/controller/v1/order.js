@@ -78,7 +78,8 @@ module.exports = class extends BaseRest {
     }
     try {
       await this.modelInstance.startTrans();
-      let result = [];
+      let result = [],
+          ids = [];
       data.order_ids.map((item) => {
         let obj = Object.assign({}, {
           admin_id: data.admin_id,
@@ -89,12 +90,14 @@ module.exports = class extends BaseRest {
           status: 1,
         });
         result.push(obj);
+        ids.push(item.id);
       })
 
       insertId = await this.modelInstance.addMany(result);
       // 更新order表
       const addressModel = this.model("address");
-      const address_result = await addressModel.where({ id: ['IN', data.order_ids] }).update({
+
+      const address_result = await addressModel.where({ id: ['IN', ids] }).update({
         status: 1
       });
       await addressModel.commit();
