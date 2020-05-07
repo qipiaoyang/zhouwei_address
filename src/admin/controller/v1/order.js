@@ -77,7 +77,7 @@ module.exports = class extends BaseRest {
       return this.fail('请传入订单');
     }
 
-    console.log(typeof data.order_ids)
+    think.logger.debugger(typeof data.order_ids)
     try {
       await this.modelInstance.startTrans();
       let result = [],
