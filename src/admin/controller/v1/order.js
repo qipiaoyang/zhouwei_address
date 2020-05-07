@@ -66,6 +66,16 @@ module.exports = class extends BaseRest {
 
   async postAction() {
     try {
+      await this.startTrans();
+      const result = await this.add({});
+      await this.commit();
+      return result;
+    } catch(e){
+      await this.rollback();
+    }
+
+
+    try {
       let data = this.post();
       if (think.isEmpty(data)) {
         return this.fail('data is empty');
@@ -76,6 +86,7 @@ module.exports = class extends BaseRest {
       if (think.isEmpty(data.order_id)) {
         return this.fail('请传入订单');
       }
+      await this.startTrans();
       let result = Object.assign({}, {
         admin_id: data.admin_id,
         order_id: data.order_id,
@@ -85,8 +96,13 @@ module.exports = class extends BaseRest {
       });
 
       const insertId = await this.modelInstance.add(result);
+      const address_result = await this.model("address").where({ id: data.order_id }).update({
+        status: 1
+      })
+      await this.commit();
       return this.success({id: insertId});
     } catch (e) {
+      await this.rollback();
       think.logger.error(new Error(e));
       return this.fail(500, '接口异常！');
     }
