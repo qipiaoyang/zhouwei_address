@@ -36,7 +36,7 @@ module.exports = class extends BaseRest {
             }
             if(result.dept_id === 3) {
               where["c.admin_id"] = admin_id;
-              where["c.status"] = 6;
+              where["c.status"] = ["!=", 6];
             }
           }
           if (!think.isEmpty(mobile)) {
@@ -66,7 +66,7 @@ module.exports = class extends BaseRest {
             }
             if(result.dept_id === 3) {
               where["c.admin_id"] = admin_id;
-              where["c.status"] = 6;
+              where["c.status"] = ["!=", 6];
             }
           }
           if (!think.isEmpty(mobile)) {
