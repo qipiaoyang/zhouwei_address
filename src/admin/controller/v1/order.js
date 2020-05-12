@@ -88,12 +88,6 @@ module.exports = class extends BaseRest {
     if (think.isEmpty(data.order_ids)) {
       return this.fail('请传入订单');
     }
-<<<<<<< HEAD
-    console.log(data.order_ids,"data.order_ids")
-=======
-
-    think.logger.debug(typeof data.order_ids)
->>>>>>> 003481a21477850a4a38fd720dba3e90bae7b0d2
     try {
       await this.modelInstance.startTrans();
       let result = [],
