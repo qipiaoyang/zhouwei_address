@@ -19,15 +19,23 @@ module.exports = class extends BaseRest {
       let admin_id = this.get("admin_id");
       let start_time = this.get("start_time");
       let end_time = this.get("end_time");
+      let adminId = this.get("adminId");
+      let status = this.get("status");
 
       if (!page) {
         // 不传分页默认返回所有
         let where = {};
-        if (think.isEmpty(order_id) && think.isEmpty(admin_id) && think.isEmpty(mobile) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
+        if (think.isEmpty(order_id) && think.isEmpty(adminId) && think.isEmpty(status) && think.isEmpty(admin_id) && think.isEmpty(mobile) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
           data = await this.modelInstance.alias("c").field("c.*,p_address.name, p_address.mobile, p_address.mark, p_address.courier_num").join("p_address ON c.`order_id`=p_address.`id`").order(order).select();
         } else {
           if (!think.isEmpty(order_id)) {
             where["c.order_id"] = order_id;
+          }
+          if (!think.isEmpty(adminId)) {
+            where["c.admin_id"] = adminId;
+          }
+          if (!think.isEmpty(status)) {
+            where["c.status"] = status;
           }
           if (!think.isEmpty(admin_id)) {
             const result = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
@@ -53,11 +61,17 @@ module.exports = class extends BaseRest {
         // 传了分页返回分页数据
         let pageSize = this.get('size') || 10;
         let where = {};
-        if (think.isEmpty(order_id) && think.isEmpty(admin_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
+        if (think.isEmpty(order_id) && think.isEmpty(admin_id) && think.isEmpty(status) && think.isEmpty(adminId) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
           data = await this.modelInstance.alias("c").field("c.*,p_address.name, p_address.mobile, p_address.mark, p_address.courier_num").join("p_address ON c.`order_id`=p_address.`id`").page(page, pageSize).order(order).countSelect();
         } else {
           if (!think.isEmpty(order_id)) {
             where["c.order_id"] = order_id;
+          }
+          if (!think.isEmpty(adminId)) {
+            where["c.admin_id"] = adminId;
+          }
+          if (!think.isEmpty(status)) {
+            where["c.status"] = status;
           }
           if (!think.isEmpty(admin_id)) {
             const result = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
