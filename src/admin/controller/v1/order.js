@@ -30,9 +30,13 @@ module.exports = class extends BaseRest {
             where["c.order_id"] = order_id;
           }
           if (!think.isEmpty(admin_id)) {
-            const dept_id = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
-            console.log(dept_id,"123123123")
-            where["c.admin_id"] = admin_id;
+            const result = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
+            if(result.dept_id === 2) {
+              return this.fail("无权限查看");
+            }
+            if(result.dept_id === 3) {
+              where["c.admin_id"] = admin_id;
+            }
           }
           if (!think.isEmpty(mobile)) {
             where["c.mobile"] = ['like', `%${mobile}%`];;
@@ -55,9 +59,13 @@ module.exports = class extends BaseRest {
             where["c.order_id"] = order_id;
           }
           if (!think.isEmpty(admin_id)) {
-            const dept_id = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
-            console.log(dept_id,"123123123")
-            where["c.admin_id"] = admin_id;
+            const result = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
+            if(result.dept_id === 2) {
+              return this.fail("无权限查看");
+            }
+            if(result.dept_id === 3) {
+              where["c.admin_id"] = admin_id;
+            }
           }
           if (!think.isEmpty(mobile)) {
             where["c.mobile"] = ['like', `%${mobile}%`];;
