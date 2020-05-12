@@ -32,6 +32,7 @@ module.exports = class extends Base {
   async loginAction() {
     const mobile = this.post("mobile");
     const password = this.post("password");
+
     if(think.isEmpty(mobile)) {
       return this.fail("请输入手机号");
     }

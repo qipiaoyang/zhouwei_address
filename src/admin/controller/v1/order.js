@@ -18,6 +18,7 @@ module.exports = class extends BaseRest {
       let admin_id = this.get("admin_id");
       let start_time = this.get("start_time");
       let end_time = this.get("end_time");
+
       if (!page) {
         // 不传分页默认返回所有
         let where = {};
@@ -28,6 +29,8 @@ module.exports = class extends BaseRest {
             where["c.order_id"] = order_id;
           }
           if (!think.isEmpty(admin_id)) {
+            const dept_id = await this.model("admin").field("dept_id").where({ admin_id: admin_id }).find();
+            console.log(dept_id,"123123123")
             where["c.admin_id"] = admin_id;
           }
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
@@ -48,6 +51,8 @@ module.exports = class extends BaseRest {
             where["c.order_id"] = order_id;
           }
           if (!think.isEmpty(admin_id)) {
+            const dept_id = await this.model("admin").field("dept_id").where({ admin_id: admin_id }).find();
+            console.log(dept_id,"123123123")
             where["c.admin_id"] = admin_id;
           }
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
@@ -76,10 +81,12 @@ module.exports = class extends BaseRest {
     if (think.isEmpty(data.order_ids)) {
       return this.fail('请传入订单');
     }
+    console.log(data.order_ids,"data.order_ids")
     try {
       await this.modelInstance.startTrans();
       let result = [],
           ids = [];
+      console.log(typeof data.order_ids);
       data.order_ids.map((item) => {
         let obj = Object.assign({}, {
           admin_id: data.admin_id,
@@ -96,7 +103,6 @@ module.exports = class extends BaseRest {
       insertId = await this.modelInstance.addMany(result);
       // 更新order表
       const addressModel = this.model("address");
-      console.log()
       const address_result = await addressModel.where({ id: ['IN', ids] }).update({
         status: 1
       });
