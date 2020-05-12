@@ -30,7 +30,7 @@ module.exports = class extends BaseRest {
             where["c.order_id"] = order_id;
           }
           if (!think.isEmpty(admin_id)) {
-            const dept_id = await this.model("admin").field("dept_id").where({ admin_id: admin_id }).find();
+            const dept_id = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
             console.log(dept_id,"123123123")
             where["c.admin_id"] = admin_id;
           }
@@ -55,7 +55,7 @@ module.exports = class extends BaseRest {
             where["c.order_id"] = order_id;
           }
           if (!think.isEmpty(admin_id)) {
-            const dept_id = await this.model("admin").field("dept_id").where({ admin_id: admin_id }).find();
+            const dept_id = await this.model("admin").field("dept_id").where({ id: admin_id }).find();
             console.log(dept_id,"123123123")
             where["c.admin_id"] = admin_id;
           }
