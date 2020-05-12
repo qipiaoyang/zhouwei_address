@@ -19,10 +19,11 @@ module.exports = class extends BaseRest {
       let dept_id = this.get("dept_id");
       let start_time = this.get("start_time");
       let end_time = this.get("end_time");
+      let status = this.get("status");
       if (!page) {
         // 不传分页默认返回所有
         let where = {};
-        if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
+        if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(status) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
         } else {
           if (!think.isEmpty(name)) {
@@ -34,9 +35,13 @@ module.exports = class extends BaseRest {
           if (!think.isEmpty(dept_id)) {
             where["c.dept_id"] = dept_id;
           }
+          if (!think.isEmpty(status)) {
+            where["c.status"] = status;
+          }
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
             where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
+
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
 
         }
@@ -55,7 +60,7 @@ module.exports = class extends BaseRest {
         // 传了分页返回分页数据
         let pageSize = this.get('size') || 10;
         let where = {};
-        if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
+        if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(status) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
 
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
 
@@ -65,6 +70,9 @@ module.exports = class extends BaseRest {
           }
           if (!think.isEmpty(mobile)) {
             where["c.mobile"] = ['like', `%${mobile}%`];
+          }
+          if (!think.isEmpty(status)) {
+            where["c.status"] = status;
           }
           if (!think.isEmpty(dept_id)) {
             where["c.dept_id"] = dept_id;
