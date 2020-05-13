@@ -128,6 +128,7 @@ module.exports = class extends BaseRest {
         return this.fail('请传入客户详细地址');
       }
       data.courier_num = data.courier_num || "";
+      data.status = data.status || 0;
       let result = Object.assign({}, {
         admin_id: data.admin_id,
         dept_id: data.dept_id,
@@ -140,7 +141,7 @@ module.exports = class extends BaseRest {
         addr: data.address_desc,
         create_time: getTime(),
         update_time: getTime(),
-        status: 1,
+        status: data.status,
         mark: data.desc,
         courier_num: data.courier_num,
       });
