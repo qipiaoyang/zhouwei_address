@@ -47,7 +47,9 @@ module.exports = class extends BaseRest {
                 let pageSize = this.get('size') || 10;
                 if(think.isEmpty(name)) {
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").page(page, pageSize).order(order).join("p_dept ON c.`dept_id`=p_dept.`id`").countSelect();
-
+                    for (const val of data.data) {
+                        val.num = await that.model("address").where({ admin_id: val.id }).count("id");
+                    }
                 } else {
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
                         'c.username': ['like', `%${name}%`]
