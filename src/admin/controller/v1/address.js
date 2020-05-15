@@ -135,7 +135,7 @@ module.exports = class extends BaseRest {
         name: data.name,
         mobile: data.mobile,
         province: data.address[0],
-        town: data.town,
+        town: data.town || 0,
         city: data.address[1],
         county: data.address[2],
         addr: data.address_desc,
