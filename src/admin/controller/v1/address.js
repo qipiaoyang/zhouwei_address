@@ -7,7 +7,7 @@ module.exports = class extends BaseRest {
       let data;
       let that = this;
       if (this.id) {
-        data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({"c.id": this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
+        data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({"c.id": this.id, visible: 1}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
         delete data.password;
         return this.success(data);
       }
@@ -25,7 +25,7 @@ module.exports = class extends BaseRest {
         // 不传分页默认返回所有
         let where = {};
         if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(admin_id) && think.isEmpty(status) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
-          data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
+          data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({ visible: 1 }).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
         } else {
           if (!think.isEmpty(name)) {
             where["c.name"] = ['like', `%${name}%`];
@@ -45,6 +45,7 @@ module.exports = class extends BaseRest {
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
             where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
+          where["c.visible"] = 1;
 
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
 
@@ -66,7 +67,7 @@ module.exports = class extends BaseRest {
         let where = {};
         if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(admin_id) && think.isEmpty(status) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
 
-          data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
+          data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({ visible: 1 }).join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
 
         } else {
           if (!think.isEmpty(name)) {
@@ -87,6 +88,7 @@ module.exports = class extends BaseRest {
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
             where["c.create_time"] = ['BETWEEN', start_time, end_time];
           }
+          where["c.visible"] = 1;
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").where(where).page(page, pageSize).order(order).countSelect();
 
         }
