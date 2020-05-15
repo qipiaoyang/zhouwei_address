@@ -36,7 +36,7 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'address_test',
+    database: 'address',
     prefix: 'p_',
     encoding: 'utf8',
     host: '121.36.47.82',
