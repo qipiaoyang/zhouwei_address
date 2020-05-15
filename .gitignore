@@ -38,3 +38,4 @@ adapter.development.js
 pm2.json
 
 yarn.lock
+src/common/config/adapter.js
