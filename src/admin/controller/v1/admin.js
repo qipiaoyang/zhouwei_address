@@ -4,7 +4,8 @@ module.exports = class extends BaseRest {
 
     async getAction() {
         try {
-            let data;
+            let data, that = this;
+
             if (this.id) {
                 const pk = this.modelInstance.pk;
                 data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({[`c.${pk}`]: this.id}).join("p_dept ON c.`dept_id`=p_dept.`id`").find();
@@ -19,7 +20,14 @@ module.exports = class extends BaseRest {
             if (!page) {
                 // 不传分页默认返回所有
                 if(think.isEmpty(name) && think.isEmpty(dept_id)) {
-                    data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
+                    data = await this.modelInstance
+                            .alias("c")
+                            .field("c.*,p_dept.name as dept_name")
+                            .join("p_dept ON c.`dept_id`=p_dept.`id`")
+                            .order(order).select();
+                    for (const val of data) {
+                        val.num = await that.model("address").where({ admin_id: val.id }).count("id");
+                    }
                 } else {
                     let where = {};
                     if(!think.isEmpty(name)) {
@@ -29,6 +37,9 @@ module.exports = class extends BaseRest {
                         where['c.dept_id'] = dept_id;
                     }
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
+                    for (const val of data) {
+                        val.num = await that.model("address").where({ admin_id: val.id }).count("id");
+                    }
                 }
                 return this.success(data);
             } else {
@@ -41,6 +52,10 @@ module.exports = class extends BaseRest {
                     data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({
                         'c.username': ['like', `%${name}%`]
                     }).join("p_dept ON c.`dept_id`=p_dept.`id`").page(page, pageSize).order(order).countSelect();
+
+                    for (const val of data.data) {
+                        val.num = await that.model("address").where({ admin_id: val.id }).count("id");
+                    }
 
                 }
                 return this.success(data);
