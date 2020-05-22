@@ -84,10 +84,14 @@ module.exports = class extends BaseRest {
             where["c.status"] = status;
           }
           if (!think.isEmpty(dept_id)) {
-            where["c.dept_id"] = dept_id;
+            if(dept_id != 1) {
+              where["c.dept_id"] = dept_id;
+            }
           }
           if (!think.isEmpty(admin_id)) {
-            where["c.admin_id"] = admin_id;
+            if(dept_id != 1) {
+              where["c.admin_id"] = admin_id;
+            }
           }
           if (!think.isEmpty(start_time) && !think.isEmpty(end_time)) {
             where["c.create_time"] = ['BETWEEN', start_time, end_time];
