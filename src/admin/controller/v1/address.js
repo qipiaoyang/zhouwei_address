@@ -129,6 +129,7 @@ module.exports = class extends BaseRest {
       if (think.isEmpty(data.address_desc)) {
         return this.fail('请传入客户详细地址');
       }
+
       data.courier_num = data.courier_num || "";
       data.status = data.status || 0;
       let result = Object.assign({}, {
