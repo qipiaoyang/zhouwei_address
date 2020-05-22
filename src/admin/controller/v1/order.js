@@ -26,7 +26,11 @@ module.exports = class extends BaseRest {
         // 不传分页默认返回所有
         let where = {};
         if (think.isEmpty(order_id) && think.isEmpty(adminId) && think.isEmpty(status) && think.isEmpty(admin_id) && think.isEmpty(mobile) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
-          data = await this.modelInstance.alias("c").field("c.*,p_address.name, p_address.mobile, p_address.mark, p_address.courier_num").join("p_address ON c.`order_id`=p_address.`id`").order(order).select();
+          data = await this.modelInstance.alias("c")
+                .field("c.*,p_address.name, p_address.mobile, p_address.mark, p_address.courier_num")
+                .join("p_address ON c.`order_id`=p_address.`id`")
+                .order(order)
+                .select();
         } else {
           if (!think.isEmpty(order_id)) {
             where["c.order_id"] = order_id;

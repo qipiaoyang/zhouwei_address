@@ -34,10 +34,14 @@ module.exports = class extends BaseRest {
             where["c.mobile"] = ['like', `%${mobile}%`];
           }
           if (!think.isEmpty(dept_id)) {
-            where["c.dept_id"] = dept_id;
+            if(dept_id != 1) {
+              where["c.dept_id"] = dept_id;
+            }
           }
           if (!think.isEmpty(admin_id)) {
-            where["c.admin_id"] = admin_id;
+            if(dept_id != 1) {
+              where["c.admin_id"] = admin_id;
+            }
           }
           if (!think.isEmpty(status)) {
             where["c.status"] = status;
