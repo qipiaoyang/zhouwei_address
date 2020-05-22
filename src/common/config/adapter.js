@@ -88,7 +88,7 @@ exports.view = {
  * @type {Object}
  */
 exports.logger = {
-  type: isDev ? 'console' : 'dateFile',
+  type: 'dateFile',
   console: {
     handle: Console
   },
