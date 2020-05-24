@@ -26,6 +26,16 @@ module.exports = class extends BaseRest {
         let where = {};
         if (think.isEmpty(name) && think.isEmpty(mobile) && think.isEmpty(admin_id) && think.isEmpty(status) && think.isEmpty(dept_id) && think.isEmpty(start_time) && think.isEmpty(end_time) ) {
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where({ visible: 1 }).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
+          for (const val of data) {
+            val.province_num = val.province;
+            val.city_num = val.city;
+            val.county_num = val.county;
+            val.town_num = val.town;
+            val.province = await this.model('area').where({id: val.province}).getField('name', true);
+            val.city = await this.model('area').where({id: val.city}).getField('name', true);
+            val.county = await this.model('area').where({id: val.county}).getField('name', true);
+            val.town = await this.model('area').where({id: val.town}).getField('name', true);
+          }
         } else {
           if (!think.isEmpty(name)) {
             where["c.name"] = ['like', `%${name}%`];
@@ -52,18 +62,18 @@ module.exports = class extends BaseRest {
           where["c.visible"] = 1;
 
           data = await this.modelInstance.alias("c").field("c.*,p_dept.name as dept_name").where(where).join("p_dept ON c.`dept_id`=p_dept.`id`").order(order).select();
+          for (const val of data.data) {
+            val.province_num = val.province;
+            val.city_num = val.city;
+            val.county_num = val.county;
+            val.town_num = val.town;
+            val.province = await this.model('area').where({id: val.province}).getField('name', true);
+            val.city = await this.model('area').where({id: val.city}).getField('name', true);
+            val.county = await this.model('area').where({id: val.county}).getField('name', true);
+            val.town = await this.model('area').where({id: val.town}).getField('name', true);
+          }
+        }
 
-        }
-        for (const val of data.data) {
-          val.province_num = val.province;
-          val.city_num = val.city;
-          val.county_num = val.county;
-          val.town_num = val.town;
-          val.province = await this.model('area').where({id: val.province}).getField('name', true);
-          val.city = await this.model('area').where({id: val.city}).getField('name', true);
-          val.county = await this.model('area').where({id: val.county}).getField('name', true);
-          val.town = await this.model('area').where({id: val.town}).getField('name', true);
-        }
         return this.success(data);
       } else {
         // 传了分页返回分页数据
@@ -186,5 +196,7 @@ module.exports = class extends BaseRest {
       return this.fail(500, '接口异常！');
     }
   }
+
+
 
 };

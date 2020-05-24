@@ -1,6 +1,7 @@
 module.exports = class extends think.Controller {
 
   async __before() {
+
     this.ctx.state.token = this.ctx.header['token'] || '';
     const tokenSerivce = this.service('token');
     this.ctx.state.userInfo = await tokenSerivce.getUserInfo(this.ctx.state.token);
