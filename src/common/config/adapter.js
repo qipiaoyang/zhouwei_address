@@ -44,6 +44,7 @@ exports.model = {
     port: '3369',
     user: 'root',
     password: 'fa4c8c1c80bb8e26',
+    // password: 'qi956634645',
     dateStrings: true
   }
 };
