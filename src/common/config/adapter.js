@@ -41,7 +41,7 @@ exports.model = {
     prefix: 'p_',
     encoding: 'utf8',
     host: 'localhost',
-    port: '3306',
+    port: '3369',
     user: 'root',
     password: 'qi956634645',
     dateStrings: true
