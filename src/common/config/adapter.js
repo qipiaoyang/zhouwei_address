@@ -37,13 +37,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: isDev ? 'address' : "address_test",
+    database: "zhouwei",
     prefix: 'p_',
     encoding: 'utf8',
-    host: '121.36.47.82',
+    host: 'localhost',
     port: '3306',
     user: 'root',
-    password: '7637f7e8a493d428',
+    password: 'qi956634645',
     dateStrings: true
   }
 };
@@ -88,7 +88,7 @@ exports.view = {
  * @type {Object}
  */
 exports.logger = {
-  type: 'dateFile',
+  type: 'console',
   console: {
     handle: Console
   },
