@@ -2,7 +2,7 @@
   "apps": [{
     "name": "zhouwei_address",
     "script": "development.js",
-    "cwd": "/data/node/zhouwei_address",
+    "cwd": "/www/server/zhouwei_address",
     "exec_mode": "fork",
     "max_memory_restart": "1G",
     "autorestart": true,
